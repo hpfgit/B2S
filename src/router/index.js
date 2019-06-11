@@ -6,12 +6,18 @@ Vue.use(Router)
 // Layout
 import Layout from '@/layouts'
 
-const routes = [
-  {
+const routes = [{
     path: '/',
+    redirect: '/login'
+  },
+  {
+    path: "/login",
+    component: () => import('views/Login'),
+  },
+  {
+    path: '/Layout',
     component: Layout,
-    children: [
-      {
+    children: [{
         path: '/ranking',
         component: () => import('views/Ranking')
       },
@@ -29,8 +35,14 @@ const routes = [
       }
     ]
   }
-]
+];
 
-export default new Router({
+const router = new Router({
   routes
+});
+
+router.beforeEach((to, from, next) => {
+  next();
 })
+
+export default router

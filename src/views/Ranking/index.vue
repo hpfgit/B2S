@@ -1,15 +1,21 @@
 <template>
   <div>
     <div class="main-right-top clearfix">
-      <Cart></Cart>
-      <Cart></Cart>
-      <Cart></Cart>
+      <div class="box-s clearfix">
+        <Cart></Cart>
+        <Cart title="top30指数" number="-233" up_num="-23" up_scale="-12"></Cart>
+        <Cart title="top100指数" number="-456" up_num="-21" up_scale="-11"></Cart>
+      </div>
     </div>
     <div class="main-right-bottom">
-      <div class="content">
+      <div class="content" id="salesvolume">
         <div class="title">
           <img :src="require('static/assets/images/41.png')" alt>
           <span>24h销量排行</span>
+          <a href="##" class="pull-right">
+            <span>查看更多</span>
+            <img :src="require('static/assets/images/more.png')" alt>
+          </a>
         </div>
         <table class="table">
           <thead>
@@ -18,77 +24,183 @@
               <th>货号</th>
               <th>
                 <span class="sort-action">销量</span>
-                <img :src="this.sort_img_mo_path" alt class="sort-img">
+                <img
+                  :src="this.sort_img_mo_path"
+                  data-click="0"
+                  alt
+                  class="sort-img"
+                  ref="sort_sales_volume"
+                >
               </th>
               <th>
                 <span class="sort-action">涨跌数量</span>
-                <img :src="this.sort_img_mo_path" alt class="sort-img">
+                <img
+                  :src="this.sort_img_mo_path"
+                  data-click="0"
+                  alt
+                  class="sort-img"
+                  ref="sort_up_down"
+                >
               </th>
               <th>
                 <span class="sort-action">涨幅度</span>
-                <img :src="this.sort_img_mo_path" alt class="sort-img">
+                <img
+                  :src="this.sort_img_mo_path"
+                  data-click="0"
+                  alt
+                  class="sort-img"
+                  ref="sort_rises"
+                >
               </th>
             </tr>
           </thead>
           <tbody>
-            <tr>
+            <tr v-for="(item, index) in ranking" :key="index">
               <td class="name">
-                <span class="no-num">1</span>Nike Air Foam破斯特 Pro 南海岸泡 岛屿绿泡球鞋
+                <span class="no-num">{{index+1}}</span>
+                {{item.name}}
               </td>
-              <td class="huo-num">5424232-32323</td>
+              <td class="huo-num">{{item.sku_num}}</td>
               <td class="xl-num sort-num">
-                <span class="sort-num-item">2423</span>
+                <span class="sort-num-item">{{item.sales_volume}}</span>
               </td>
               <td class="zd-num sort-num">
-                <span class="sort-num-item">-323</span>
+                <span class="sort-num-item">{{item.up_down}}</span>
               </td>
               <td class="zfd-num sort-num">
-                <span class="sort-num-item">-4.49</span>%
+                <span class="sort-num-item">{{item.rises}}</span>%
               </td>
             </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="content" id="upsanddowns">
+        <div class="title">
+          <img :src="require('static/assets/images/41.png')" alt>
+          <span>24h涨跌排行</span>
+          <a href="##" class="pull-right">
+            <span>查看更多</span>
+            <img :src="require('static/assets/images/more.png')" alt>
+          </a>
+        </div>
+        <table class="table">
+          <thead>
             <tr>
+              <th>名称</th>
+              <th>货号</th>
+              <th>
+                <span class="sort-action">销量</span>
+                <img
+                  :src="this.sort_img_mo_path"
+                  data-click="0"
+                  alt
+                  class="sort-img"
+                  ref="sort_sales_volume"
+                >
+              </th>
+              <th>
+                <span class="sort-action">涨跌数量</span>
+                <img
+                  :src="this.sort_img_mo_path"
+                  data-click="0"
+                  alt
+                  class="sort-img"
+                  ref="sort_up_down"
+                >
+              </th>
+              <th>
+                <span class="sort-action">涨幅度</span>
+                <img
+                  :src="this.sort_img_mo_path"
+                  data-click="0"
+                  alt
+                  class="sort-img"
+                  ref="sort_rises"
+                >
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(item, index) in ranking" :key="index">
               <td class="name">
-                <span class="no-num">1</span>Nike Air Foam破斯特 Pro 南海岸泡 岛屿绿泡球鞋
+                <span class="no-num">{{index+1}}</span>
+                {{item.name}}
               </td>
-              <td class="huo-num">5424232-32323</td>
+              <td class="huo-num">{{item.sku_num}}</td>
               <td class="xl-num sort-num">
-                <span class="sort-num-item">2423</span>
+                <span class="sort-num-item">{{item.sales_volume}}</span>
               </td>
               <td class="zd-num sort-num">
-                <span class="sort-num-item">-323</span>
+                <span class="sort-num-item">{{item.up_down}}</span>
               </td>
               <td class="zfd-num sort-num">
-                <span class="sort-num-item">-4.49</span>%
+                <span class="sort-num-item">{{item.rises}}</span>%
               </td>
             </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="content" id="done">
+        <div class="title">
+          <img :src="require('static/assets/images/41.png')" alt>
+          <span>24h成交额排行</span>
+          <a href="##" class="pull-right">
+            <span>查看更多</span>
+            <img :src="require('static/assets/images/more.png')" alt>
+          </a>
+        </div>
+        <table class="table">
+          <thead>
             <tr>
-              <td class="name">
-                <span class="no-num">1</span>Nike Air Foam破斯特 Pro 南海岸泡 岛屿绿泡球鞋
-              </td>
-              <td class="huo-num">5424232-32323</td>
-              <td class="xl-num sort-num">
-                <span class="sort-num-item">2423</span>
-              </td>
-              <td class="zd-num sort-num">
-                <span class="sort-num-item">-323</span>
-              </td>
-              <td class="zfd-num sort-num">
-                <span class="sort-num-item">-4.49</span>%
-              </td>
+              <th>名称</th>
+              <th>货号</th>
+              <th>
+                <span class="sort-action">销量</span>
+                <img
+                  :src="this.sort_img_mo_path"
+                  data-click="0"
+                  alt
+                  class="sort-img"
+                  ref="sort_sales_volume"
+                >
+              </th>
+              <th>
+                <span class="sort-action">涨跌数量</span>
+                <img
+                  :src="this.sort_img_mo_path"
+                  data-click="0"
+                  alt
+                  class="sort-img"
+                  ref="sort_up_down"
+                >
+              </th>
+              <th>
+                <span class="sort-action">涨幅度</span>
+                <img
+                  :src="this.sort_img_mo_path"
+                  data-click="0"
+                  alt
+                  class="sort-img"
+                  ref="sort_rises"
+                >
+              </th>
             </tr>
-            <tr>
+          </thead>
+          <tbody>
+            <tr v-for="(item, index) in ranking" :key="index">
               <td class="name">
-                <span class="no-num">1</span>Nike Air Foam破斯特 Pro 南海岸泡 岛屿绿泡球鞋
+                <span class="no-num">{{index+1}}</span>
+                {{item.name}}
               </td>
-              <td class="huo-num">5424232-32323</td>
+              <td class="huo-num">{{item.sku_num}}</td>
               <td class="xl-num sort-num">
-                <span class="sort-num-item">2423</span>
+                <span class="sort-num-item">{{item.sales_volume}}</span>
               </td>
               <td class="zd-num sort-num">
-                <span class="sort-num-item">-323</span>
+                <span class="sort-num-item">{{item.up_down}}</span>
               </td>
               <td class="zfd-num sort-num">
-                <span class="sort-num-item">-4.49</span>%
+                <span class="sort-num-item">{{item.rises}}</span>%
               </td>
             </tr>
           </tbody>
@@ -98,38 +210,81 @@
   </div>
 </template>
 <script>
+import { addHandler } from "../../assets/js/utils";
 import Cart from "@/Cart";
-export default {
-    data() {
-            return {
-                sort_img_mo_path: require('static/assets/images/mo.png'),
-                sort_img_up_path: require('static/assets/images/up.png'),
-                sort_img_do_path: require('static/assets/images/do.png')
-            }
-        },
-        methods: {
-            init() {
-                let self = this;
+import request from "../../utils/request";
 
-                this.$jQuery('.table tr th').each(function () {
-                    self.$jQuery(this).find('.sort-img').each(function () {
-                        self.$jQuery(this).attr('data-click', 0).click(function () {
-                            let num = Number(self.$jQuery(this).attr('data-click'))
-                            num += 1
-                            self.$jQuery(this).attr('data-click', num)
-                            self.$jQuery(this).attr('src', self.sort_img_up_path)
-                            if (self.$jQuery(this).attr('data-click') === '2') {
-                                self.$jQuery(this).attr('data-click', 0)
-                                self.$jQuery(this).attr('src', self.sort_img_do_path)
-                            }
-                        })
-                    })
-                })
-            }
-        },
-        mounted() {
-            this.init()
-        },
+export default {
+  data() {
+    return {
+      sort_img_mo_path: require("static/assets/images/mo.png"),
+      sort_img_up_path: require("static/assets/images/up.png"),
+      sort_img_do_path: require("static/assets/images/do.png"),
+      ranking: []
+    };
+  },
+  created() {
+    request({
+      url: "/get/ranking",
+      methods: "get"
+    }).then(response => {
+      this.ranking = response;
+    });
+  },
+  methods: {
+    sortNum(el, attr) {
+      let self = this;
+      let sort_sales_volume = this.$refs[el];
+      addHandler(sort_sales_volume, "click", function() {
+        let num = parseInt(this.dataset["click"]);
+        if (num >= 3) {
+          num = 0;
+        }
+        num += 1;
+        this.dataset["click"] = num;
+        if (num === 1) {
+          this.setAttribute("src", self.sort_img_up_path);
+          request({
+            url: "/get/ranking",
+            methods: "get"
+          }).then(response => {
+            response = response.sort((a, b) => {
+              return b[attr] - a[attr];
+            });
+            self.ranking = response;
+          });
+        }
+        if (num === 2) {
+          this.setAttribute("src", self.sort_img_do_path);
+          request({
+            url: "/get/ranking",
+            methods: "get"
+          }).then(response => {
+            response = response.sort((a, b) => {
+              return a[attr] - b[attr];
+            });
+            self.ranking = response;
+          });
+        }
+        if (num === 3) {
+          this.setAttribute("src", self.sort_img_mo_path);
+          request({
+            url: "/get/ranking",
+            methods: "get"
+          }).then(response => {
+            self.ranking = response;
+          });
+        }
+      });
+    }
+  },
+  mounted() {
+    this.$nextTick(() => {
+      this.sortNum("sort_sales_volume", "sales_volume");
+      this.sortNum("sort_up_down", "up_down");
+      this.sortNum("sort_rises", "rises");
+    });
+  },
   components: {
     Cart
   }
@@ -137,9 +292,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.box-s {
+  width: 90%;
+}
 .main-right-bottom {
   margin-top: 20px;
-  background-color: #30343d;
 
   .content {
     background-color: #30343d;
@@ -163,6 +320,24 @@ export default {
 
       span {
         vertical-align: middle;
+      }
+
+      a {
+        color: #687285;
+        margin-right: 45px;
+
+        &:hover {
+          text-decoration: none;
+        }
+
+        &:link {
+          text-decoration: none;
+        }
+
+        span {
+          vertical-align: middle;
+          margin-right: 10px;
+        }
       }
     }
 

@@ -4,8 +4,8 @@
     <p class="content">
       <span class="big-num">5633</span>
       <span class="small-num">
-        <span class="up-num">+233</span>
-        <span class="float-num">⬆10.13%</span>
+        <span class="up-num"><img class="sub_up_img" :src="add_img" alt="" v-if="up_num > 0"><img class="sub_up_img" :src="red_img" alt="" v-if="up_num < 0"><span class="sub_up_num">{{sub_up_num}}</span></span>
+        <span class="float-num">10.13% <img class="top_img" :src="top_img" alt=""></span>
       </span>
     </p>
     <img :src="require('static/assets/images/fg.png')" alt class="fg-img">
@@ -14,7 +14,41 @@
 
 <script>
 export default {
-  name: "cart2"
+  name: "cart2",
+  props: {
+    number: {
+      type: Number,
+      default() {
+        return 5633;
+      }
+    },
+    up_num: {
+      type: Number,
+      default() {
+        return -213;
+      }
+    },
+    up_scale: {
+      type: Number,
+      default() {
+        return 10.13;
+      }
+    }
+  },
+  data() {
+    return {
+      add_img: require("static/assets/images/add.png"),
+      red_img: require("static/assets/images/red.png"),
+      top_img: require("static/assets/images/top.png")
+    }
+  },
+  computed: {
+    sub_up_num() {
+      let arr = (this.up_num+'').split('-');
+      let str = arr[arr.length - 1]
+      return str
+    }
+  }
 };
 </script>
 
@@ -35,30 +69,26 @@ export default {
   h3 {
     color: #fff;
     font-size: 20px;
-    height: 78px;
-    line-height: 78px;
-    margin-top: 0;
-    margin-bottom: 0;
+    margin-top: 30px;
   }
 
   .content {
     padding-bottom: 17px;
     width: 80%;
-    margin: -8px auto 0;
+    margin: 0 auto 0;
   }
 
   .big-num {
     display: block;
     font-size: 52px;
     color: #af380d;
-    margin-top: -8px;
   }
 
   .small-num {
     display: flex;
     justify-content: space-around;
-    margin-top: 10px;
-    margin-bottom: 20px;
+    margin: 10px auto 20px;
+    width: 50%;
   }
 
   .up-num,
@@ -74,6 +104,16 @@ export default {
     bottom: 0;
     left: 0;
     width: 100%;
+  }
+
+  .sub_up_img {
+    margin-right: 5px;
+    margin-top: -4px;
+  }
+
+  .top_img {
+    margin-top: -4px;
+    margin-left: 2px;
   }
 }
 </style>

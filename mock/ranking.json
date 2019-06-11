@@ -1,0 +1,34 @@
+[
+	{
+		"id": 1,
+		"name": "Nike Air Foam破斯特 南海岸泡 岛屿绿泡球鞋",
+		"sku_num": "5424232-32323",
+		"sales_volume": "2123",
+		"up_down": "-623",
+		"rises": "-4.59"
+	},
+	{
+		"id": 2,
+		"name": "Nike Air Foam破斯特 Pro 岛屿绿泡球鞋",
+		"sku_num": "5424232-32323",
+		"sales_volume": "1423",
+		"up_down": "-523",
+		"rises": "-4.29"
+	},
+	{
+		"id": 3,
+		"name": "Nike Air Foam破斯特 Pro 南海岸泡",
+		"sku_num": "5424232-32323",
+		"sales_volume": "2453",
+		"up_down": "-123",
+		"rises": "-4.19"
+	},
+	{
+		"id": 4,
+		"name": "Nike Air Pro 南海岸泡 岛屿绿泡球鞋",
+		"sku_num": "5424232-32323",
+		"sales_volume": "2473",
+		"up_down": "-313",
+		"rises": "-3.46"
+	}
+]

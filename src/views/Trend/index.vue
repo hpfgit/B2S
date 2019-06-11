@@ -13,11 +13,17 @@
       <div class="content">
         <div class="size clearfix">
           <div class="pull-left">
-            <img :src="require('static/assets/images/xie.jpg')" alt width="120" height="120" class="xie-img">
+            <img
+              :src="require('static/assets/images/xie.jpg')"
+              alt
+              width="120"
+              height="120"
+              class="xie-img"
+            >
           </div>
           <div class="size-right pull-left">
             <p class="name">[ AX06286 ] Nike Air Foam破斯特 Pro 南海岸泡 岛屿绿泡球鞋</p>
-            <ul class="size-list clearfix">
+            <ul class="size-list clearfix" ref="size_list">
               <li class="active">品均数据</li>
               <li>36</li>
               <li>36</li>
@@ -43,16 +49,34 @@
             </ul>
             <div class="info clearfix">
               <div class="info-top pull-left">
-                <p class="jin">今开：8763</p>
-                <p class="gao">今开：8763</p>
+                <p class="jin">
+                  今开：8763
+                  <img :src="require('static/assets/images/pre.png')">
+                </p>
+                <p class="gao">
+                  今开：8763
+                  <img :src="require('static/assets/images/pre.png')">
+                </p>
               </div>
               <div class="info-center pull-left">
-                <p class="cheng">最高：8763</p>
-                <p class="gao">最低：8763</p>
+                <p class="cheng">
+                  最高：8763
+                  <img :src="require('static/assets/images/pre2.png')">
+                </p>
+                <p class="gao">
+                  最低：8763
+                  <img :src="require('static/assets/images/pre2.png')">
+                </p>
               </div>
               <div class="info-bottom pull-left">
-                <p class="gao">今开：8763</p>
-                <p class="cheng">今开：8763</p>
+                <p class="gao">
+                  今开：8763
+                  <img :src="require('static/assets/images/pre.png')">
+                </p>
+                <p class="cheng">
+                  今开：8763
+                  <img :src="require('static/assets/images/pre.png')">
+                </p>
               </div>
             </div>
           </div>
@@ -78,6 +102,7 @@
   </div>
 </template>
 <script>
+import { addHandler, getElementStyle } from "../../assets/js/utils";
 export default {
   data() {
     return {
@@ -330,6 +355,7 @@ export default {
     myChart.setOption(this.option);
     let kChart = this.$echarts.init(this.$refs.kMain);
     kChart.setOption(this.option2);
+    this.changeSize();
   },
   computed: {
     option2() {
@@ -553,6 +579,22 @@ export default {
         result.push(sum / dayCount);
       }
       return result;
+    },
+
+    changeSize() {
+      this.$nextTick(() => {
+        let size_list = this.$refs.size_list;
+        let items = size_list.querySelectorAll("li");
+        for (let i = 0; i < items.length; i++) {
+          items[i].index = i;
+          addHandler(items[i], "click", function() {
+            for (let j = 0; j < items.length; j++) {
+              items[j].classList.remove("active");
+            }
+            items[this.index].classList.add("active");
+          });
+        }
+      });
     }
   }
 };
@@ -569,7 +611,7 @@ export default {
 
 .name {
   color: #ffffff;
-  margin-bottom: 26px;
+  margin-bottom: 18px;
   font-size: 18px;
 }
 

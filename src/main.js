@@ -6,6 +6,7 @@ import 'bootstrap/dist/css/bootstrap-theme.min.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import App from './App.vue'
 import router from './router'
+import store from './store'
 import $ from 'jquery'
 import * as echarts from 'echarts'
 
@@ -17,5 +18,6 @@ Vue.use(ElementUI)
 
 new Vue({
   router,
+  store,
   render: h => h(App),
 }).$mount('#app')

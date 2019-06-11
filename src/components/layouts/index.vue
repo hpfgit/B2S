@@ -1,166 +1,182 @@
 <template>
   <div class="market-container">
-    <div class="main-left">
-      <div class="logo">
-        <img :src="require('static/assets/images/B2S.png')" alt>
-        <div></div>
-        <span class="line"></span>
-      </div>
-      <div class="slideBar">
-        <div class="slideBar-class">
-          <router-link tag="h3" to="/ranking">
-            <span class="left-line"></span>
-            <img :src="require('static/assets/images/1.png')" alt>
-            <span>大盘</span>
-          </router-link>
-          <ul class="slideBar-list collapse" id="collapseExample">
-            <li>24h销量排行</li>
-            <li>24h涨跌排行</li>
-            <li>24h成交额排行</li>
-            <li>0~1k综合排行</li>
-            <li>2~4k综合排行</li>
-            <li>4k以上综合排行</li>
-          </ul>
+    <div class="main-left" ref="main_left">
+      <div class="box" ref="box">
+        <div class="logo">
+          <img :src="require('static/assets/images/B2S.png')" alt>
+          <div></div>
+          <span class="line"></span>
         </div>
-        <div class="slideBar-class">
-           <router-link tag="h3" to="/stock">
-            <span class="left-line"></span>
-            <img :src="require('static/assets/images/2.png')" alt>
-            <span>库存</span>
-           </router-link>
-          <ul class="slideBar-list collapse" id="collapseExample2">
-            <li>24h销量排行</li>
-            <li>24h涨跌排行</li>
-            <li>24h成交额排行</li>
-            <li>0~1k综合排行</li>
-            <li>2~4k综合排行</li>
-            <li>4k以上综合排行</li>
-          </ul>
-        </div>
-        <div class="slideBar-class">
-           <router-link tag="h3" to="/order">
-            <span class="left-line"></span>
-            <img :src="require('static/assets/images/3.png')" alt>
-            <span>订单</span>
-           </router-link>
-          <ul class="slideBar-list collapse" id="collapseExample3">
-            <li>24h销量排行</li>
-            <li>24h涨跌排行</li>
-            <li>24h成交额排行</li>
-            <li>0~1k综合排行</li>
-            <li>2~4k综合排行</li>
-            <li>4k以上综合排行</li>
-          </ul>
-        </div>
-        <div class="slideBar-class">
-          <router-link tag="h3" to="/trend">
-            <span class="left-line"></span>
-            <img :src="require('static/assets/images/4.png')" alt>
-            <span>账款</span>
-          </router-link>
-          <ul class="slideBar-list collapse" id="collapseExample4">
-            <li>24h销量排行</li>
-            <li>24h涨跌排行</li>
-            <li>24h成交额排行</li>
-            <li>0~1k综合排行</li>
-            <li>2~4k综合排行</li>
-            <li>4k以上综合排行</li>
-          </ul>
+        <div class="slideBar">
+          <nav-menu
+            to="/ranking"
+            title="大盘"
+            :list="['24h销量排行','24h涨跌排行','24h成交额排行','0~1k综合排行','2~4k综合排行','4k以上综合排行']"
+          ></nav-menu>
+          <nav-menu to="/stock" title="库存"></nav-menu>
+          <nav-menu to="/order" title="订单"></nav-menu>
+          <nav-menu title="账单"></nav-menu>
         </div>
       </div>
+      <div class="scroll-line" ref="scroll_line"></div>
     </div>
     <div class="main-right">
       <div class="user-info">
         <img :src="require('static/assets/images/user.png')" alt class="user-img">
         <span>Sccon Horizon</span>
         <img :src="require('static/assets/images/user_do.png')" alt class="user_do_img">
-        <img :src="require('static/assets/images/die.png')" alt class="die_img">
+        <img :src="require('static/assets/images/die.png')" @click="logout" alt class="die_img">
       </div>
-      <router-view></router-view>
+      <transition name="fade">
+        <router-view></router-view>
+      </transition>
     </div>
+    <loading :fullscreenLoading="isFullscreenLoading" ref="loading"></loading>
   </div>
 </template>
 
 <script>
+import navMenu from "@/NavMenu";
+import loading from "@/loading";
+import {
+  addHandler,
+  getEvent,
+  getWheelDelta,
+  getElementStyle
+} from "../../assets/js/utils";
+
 export default {
   name: "Layout",
+  data() {
+    return {
+      isFullscreenLoading: false,
+      transitionName: ""
+    };
+  },
   methods: {
-    init() {
-      let self = this;
-      let slideBarClass = this.$jQuery(".slideBar-class");
-
-      slideBarClass
-        .eq(0)
-        .addClass("active")
-        .find(".left-line")
-        .show();
-      slideBarClass
-        .eq(0)
-        .find(".slideBar-list")
-        .show();
-      slideBarClass
-        .eq(0)
-        .siblings()
-        .removeClass("active")
-        .find(".left-line")
-        .hide();
-      slideBarClass
-        .eq(0)
-        .siblings()
-        .find(".slideBar-list")
-        .hide();
-
-      slideBarClass.each(function(index) {
-        self
-          .$jQuery(this)
-          .find("h3")
-          .click(function() {
-            slideBarClass
-              .eq(index)
-              .addClass("active")
-              .find(".left-line")
-              .show();
-            slideBarClass
-              .eq(index)
-              .find(".slideBar-list")
-              .show();
-            slideBarClass
-              .eq(index)
-              .siblings()
-              .removeClass("active")
-              .find(".left-line")
-              .hide();
-            slideBarClass
-              .eq(index)
-              .siblings()
-              .find(".slideBar-list")
-              .hide();
+    logout() {
+      this.$refs.loading.openFullScreen();
+      this.$store
+        .dispatch("user/logout")
+        .then(() => {
+          this.$router.push({
+            path: this.redirect || "/",
+            query: this.otherQuery
           });
+          this.$refs.loading.closeFullScreen();
+        })
+        .catch(() => {
+          this.$refs.loading.closeFullScreen();
+        });
+    },
+    scroll() {
+      this.$nextTick(() => {
+        // 滚动条总高度 / 滚动条高度 = 层级2 / 层级1
+        let box = this.$refs.box;
+        let scroll_line = this.$refs.scroll_line;
+        let main_left = this.$refs.main_left;
+        let box_hei = parseInt(getElementStyle(box, "height"));
+        let scr_hei = parseInt(getElementStyle(scroll_line, "height"));
+        let main_hei = parseInt(getElementStyle(main_left, "height"));
+        let com_scr_hei = Math.min(main_hei / box_hei, 1);
+        scroll_line.style.height = com_scr_hei * main_hei + "px";
+
+        let maxval = main_hei - com_scr_hei * main_hei;
+        let maxcon = box_hei - main_hei;
+        let num = 0;
+        // 滑块区域与内容区域的比例
+        const sliderRatio = box_hei / main_hei;
+        console.log(sliderRatio);
+        addHandler(main_left, "mousewheel", function(e) {
+          e = getEvent(e);
+          let dir = getWheelDelta(e);
+          let top = scroll_line.offsetTop;
+          top = top - dir * 15;
+          top = Math.min(top, maxval);
+          top = Math.max(top, 0);
+          scroll_line.style.top = top + "px";
+          box.style.top = (-top / maxval) * maxcon + "px";
+        });
+        addHandler(box, "DOMMouseScroll", function(e) {
+          e = getEvent(e);
+          let dir = getWheelDelta(e);
+          let top = scroll_line.offsetTop;
+          top = top - dir * 15;
+          top = Math.min(top, maxval);
+          top = Math.max(top, 0);
+          scroll_line.style.top = top + "px";
+          box.style.top = (-top / maxval) * maxcon + "px";
+        });
       });
     }
   },
   mounted() {
-    this.init();
+    this.scroll();
+  },
+  components: {
+    loading,
+    navMenu
+  },
+  watch: {
+    $route(to, from) {
+      const toDepth = to.path.split("/").length;
+      const fromDepth = from.path.split("/").length;
+      this.transitionName = toDepth < fromDepth ? "slide-right" : "slide-left";
+      console.log(to.path, fromDepth, this.transitionName);
+    }
   }
 };
 </script>
 
 <style lang="scss" scoped>
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .2s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
 .market-container {
   display: flex;
+  width: 100%;
+  height: 100%;
 }
+
 .main-left {
   background-color: #1e2229;
-  padding-left: 10px;
-  padding-right: 10px;
   max-width: 238px;
   flex: 20% 0 0;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+
+  .box {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .scroll-line {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 10px;
+    height: 100px;
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.2);
+  }
 }
+
 .main-right {
   background-color: #252a32;
   flex: 80% 1 0;
   padding-left: 20px;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
+
 .logo {
   text-align: center;
 
@@ -177,6 +193,7 @@ export default {
     margin-bottom: 50px;
   }
 }
+
 .user-info {
   text-align: right;
   height: 80px;
@@ -207,61 +224,9 @@ export default {
     margin-right: 80px;
   }
 }
+
 .slideBar {
   border-radius: 10px;
   letter-spacing: 1px;
-
-  .slideBar-class {
-    position: relative;
-    border-radius: 5px;
-
-    &.active {
-      background-color: #2c303a;
-
-      h3 {
-        color: #e9c381;
-      }
-    }
-  }
-
-  h3 {
-    color: #6e6f70;
-    font-size: 18px;
-    height: 70px;
-    line-height: 70px;
-    cursor: pointer;
-
-    img {
-      margin-left: 39px;
-    }
-
-    span {
-      vertical-align: middle;
-      display: inline-block;
-      margin-left: 24px;
-    }
-
-    .left-line {
-      position: absolute;
-      left: 0;
-      top: 0;
-      margin-left: 0;
-      background-image: url("../../assets/images/24.png");
-      width: 2px;
-      height: 70px;
-      display: none;
-    }
-  }
-
-  .slideBar-list {
-    li {
-      height: 56px;
-      line-height: 56px;
-      font-size: 14px;
-      color: #6e6f70;
-      cursor: pointer;
-      padding-left: 48px;
-    }
-  }
 }
 </style>

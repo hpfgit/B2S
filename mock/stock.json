@@ -1,0 +1,57 @@
+[
+	{
+		"id": 1,
+		"name": "Nike Air Foam破斯特 南海岸泡 岛屿绿泡球鞋",
+		"img": "/assets/images/xie.jpg",
+		"sku_raw": "624041-303",
+		"sku_num": "5424232-32323",
+		"carriage": "100",
+		"address": "天津市西青区华鼎新区1号4号楼1门702",
+		"logistics": "顺丰速运 (寄付）",
+		"status": "23:20"
+	},
+	{
+		"id": 1,
+		"name": "Nike Air Foam破斯特 南海岸泡 岛屿绿泡球鞋",
+		"img": "../../assets/images/xie.jpg",
+		"sku_raw": "624041-303",
+		"sku_num": "5424232-32323",
+		"carriage": "100",
+		"address": "天津市西青区华鼎新区1号4号楼1门702",
+		"logistics": "顺丰速运",
+		"status": ""
+	},
+	{
+		"id": 1,
+		"name": "Nike Air Foam破斯特 南海岸泡 岛屿绿泡球鞋",
+		"img": "/assets/images/xie.jpg",
+		"sku_raw": "624041-303",
+		"sku_num": "5424232-32323",
+		"carriage": "100",
+		"address": "天津市西青区华鼎新区1号4号楼1门702",
+		"logistics": "顺丰速运",
+		"status": ""
+	},
+	{
+		"id": 1,
+		"name": "Nike Air Foam破斯特 南海岸泡 岛屿绿泡球鞋",
+		"img": "/assets/images/xie.jpg",
+		"sku_raw": "624041-303",
+		"sku_num": "5424232-32323",
+		"carriage": "100",
+		"address": "天津市西青区华鼎新区1号4号楼1门702",
+		"logistics": "顺丰速运",
+		"status": ""
+	},
+	{
+		"id": 1,
+		"name": "Nike Air Foam破斯特 南海岸泡 岛屿绿泡球鞋",
+		"img": "/assets/images/xie.jpg",
+		"sku_raw": "624041-303",
+		"sku_num": "5424232-32323",
+		"carriage": "100",
+		"address": "天津市西青区华鼎新区1号4号楼1门702",
+		"logistics": "顺丰速运",
+		"status": ""
+	}
+]
