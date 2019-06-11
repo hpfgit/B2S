@@ -3,7 +3,7 @@
     <router-link tag="h3" :to="to">
       <span class="left-line"></span>
       <img :src="require('static/assets/images/1.png')" alt>
-      <span>大盘</span>
+      <span>{{title}}</span>
     </router-link>
     <ul class="slideBar-list collapse" id="collapseExample">
       <li v-for="(item ,index) in list" :key="index">

@@ -3,16 +3,18 @@
     <h3>{{title}}</h3>
     <p class="content">
       <span class="big-num">{{number | formatNumber}}</span>
-      <span>
-        <span class="up-num">
-          <img class="sub_up_img" :src="add_img" alt v-if="up_num > 0">
-          <img class="sub_up_img" :src="red_img" alt v-if="up_num < 0">
-          <span class="sub_up_num">{{up_num | formatNumber}}</span>
-        </span>
-        <span class="float-num">
-          <img class="up_img" :src="up_img" alt v-if="up_scale > 0">
-          <img class="up_img" :src="down_img" alt v-if="up_scale < 0">
-          <span class="up_scale">{{up_scale | formatNumber}}%</span>
+      <span class="small-num">
+        <span class="small-num-box">
+          <span class="up-num">
+            <img class="sub_up_img" :src="add_img" alt v-if="up_num > 0">
+            <img class="sub_up_img" :src="red_img" alt v-if="up_num < 0">
+            <span class="sub_up_num">{{up_num | formatNumber}}</span>
+          </span>
+          <span class="float-num">
+            <img class="up_img" :src="up_img" alt v-if="up_scale > 0">
+            <img class="up_img" :src="down_img" alt v-if="up_scale < 0">
+            <span class="up_scale">{{up_scale | formatNumber}}%</span>
+          </span>
         </span>
       </span>
     </p>
@@ -76,7 +78,7 @@ export default {
   background-color: #302b2f;
   text-align: center;
   position: relative;
-  width: 32%;
+  width: 23.5%;
   float: left;
   margin-top: 10px;
   margin-left: 2%;
@@ -100,25 +102,31 @@ export default {
 
   h3 {
     color: #fff;
-    font-size: 20px;
-    height: 78px;
-    line-height: 78px;
-    margin-top: 0;
-    margin-bottom: 0;
+    font-size: 18px;
+    margin-top: 30px;
   }
 
   .content {
     display: flex;
     justify-content: space-around;
     padding-bottom: 17px;
-    width: 64%;
-    margin: -8px auto 0;
+    margin: 0 auto 0;
+    width: 90%;
   }
 
   .big-num {
-    font-size: 52px;
+    font-size: 50px;
     color: #af380d;
-    margin-top: -8px;
+  }
+  
+  .small-num {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .big-num, .small-num {
+    flex: 1;
   }
 
   .up-num,
@@ -126,7 +134,6 @@ export default {
     color: #af380d;
     font-size: 18px;
     display: block;
-    text-align: left;
   }
 
   .fg-img {

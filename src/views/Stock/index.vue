@@ -1,324 +1,429 @@
 <template>
-  <div>
-    <div class="main-right-top clearfix">
-      <Cart2></Cart2>
-      <Cart2></Cart2>
-      <Cart2></Cart2>
-    </div>
-    <div class="main-right-bottom">
-      <div class="order-content">
-        <div class="stock-title title clearfix" ref="stock_title">
-          <span class="stock-item active">全部订单 (876)</span>
-          <span class="stock-item">全部订单 (876)</span>
-          <span class="stock-item">全部订单 (876)</span>
-          <span class="stock-item">全部订单 (876)</span>
-          <span class="stock-item">全部订单 (876)</span>
-          <span class="line" ref="stock_line"></span>
-        </div>
-        <table class="table">
-          <thead>
-            <tr>
-              <th @click="check_all">
+	<div>
+		<div class="main-right-top clearfix">
+			<Cart2 :number="number" :up_num="up_num" :up_scale="up_scale"></Cart2>
+			<Cart2 title="库存总数量"></Cart2>
+			<Cart2 title="库存总市值 (元)"></Cart2>
+			<Cart2 title="库存净利润 (元)"></Cart2>
+			<Cart2 title="存货周转天数 (天)"></Cart2>
+		</div>
+		<div class="main-right-bottom">
+			<div class="order-content">
+				<div class="title clearfix">
+					<button class="btn btn-order pull-left">＋ 新增商品</button>
+					<button class="btn btn-order pull-left">上架</button>
+					<button class="btn btn-order pull-left">下架</button>
+					<div class="form-inline order-form-inline pull-right">
+						<label for="huohao"></label>
+						<input
+							id="huohao"
+							type="text"
+							class="form-control order-control pull-left"
+							name="search"
+							placeholder="请搜索商品名称、货号"
+						>
+						<button class="btn btn-order-search pull-left">搜索</button>
+					</div>
+				</div>
+				<div class="order-title clearfix" ref="screen_box">
+					<div class="screen-class pull-left">筛选条件：</div>
+					<div class="pull-left screen-item">
+            <span>
+              出售状态
+              <span class="glyphicon glyphicon-menu-down"></span>
+            </span>
+						<ul class="order-screen-list clearfix">
+							<li>在售</li>
+							<li>未售</li>
+						</ul>
+					</div>
+					<div class="pull-left screen-item">
+            <span>
+              出售状态
+              <span class="glyphicon glyphicon-menu-down"></span>
+            </span>
+						<ul class="order-screen-list clearfix">
+							<li>在售</li>
+							<li>未售</li>
+						</ul>
+					</div>
+					<div class="pull-left screen-item">
+            <span class="order-pro">
+              出售状态
+              <span class="glyphicon glyphicon-menu-down"></span>
+            </span>
+						<ul class="order-screen-list order-pro-screen-list">
+							<li>在售</li>
+							<li>未售</li>
+						</ul>
+					</div>
+				</div>
+				<table class="table">
+					<thead>
+					<tr>
+						<th @click="check_all">
                 <span class="check-all">
                   <img :src="check_img" v-if="is_checked_all === true" alt>
                 </span>
-                <span class="check-all-font" ref="check_all">全选</span>
-              </th>
-              <th>商品信息</th>
-              <th>订单总额</th>
-              <th>订单总额</th>
-              <th>物流方式</th>
-              <th>状态</th>
-              <th>操作</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(item, index) in stock" :key="index">
-              <td>
-                <span class="check-one active" ref="check_one" @click="check_one(index)">
+							<span class="check-all-font" ref="check_all">全选</span>
+						</th>
+						<th>商品信息</th>
+						<th>货号</th>
+						<th>状态</th>
+						<th>总数量</th>
+						<th>预期市值</th>
+						<th>预期利润</th>
+						<th>实际市值</th>
+						<th>实际利润</th>
+						<th>操作</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr v-for="(item, index) in order" :key="index">
+						<td>
+                <span class="check-one" ref="check_one" @click="check_one(index)">
                   <img :src="check_img" alt v-if="item.is_checked">
                 </span>
-              </td>
-              <td class="name clearfix">
-                <div class="img-box clearfix">
-                  <!-- <img :src="require(''+item.img+'')" alt class="pull-left"> -->
-                  <p class="pull-left">{{item.name}}</p>
-                  <p class="huohao pull-left">{{item.sku_raw}}</p>
-                </div>
-              </td>
-              <td class="huo-num">
-                <p>{{item.sku_num}}</p>
-                <p>(含运费: ￥{{item.carriage}})</p>
-              </td>
-              <td class="xl-num sort-num">
-                <span class="sort-num-item">
-                  {{item.address}}
-                  <span class="copy-font">复制</span>
-                </span>
-              </td>
-              <td class="zd-num sort-num">
-                <span class="sort-num-item">{{item.logistics}}</span>
-              </td>
-              <td class="zfd-num sort-num">
-                <p class="sort-num-item">发货倒计时</p>
-                <p>{{item.status}}</p>
-              </td>
-              <td class="zfd-num sort-num">
-                <span class="sort-num-item sort-num-item3">编辑</span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
+						</td>
+						<td class="name clearfix">
+							<div class="img-box clearfix">
+								<!-- <img :src="require(item.img)" alt class="pull-left"> -->
+								<p class="pull-left">{{item.name}}</p>
+							</div>
+						</td>
+						<td class="huo-num">{{item.sku_num}}</td>
+						<td class="xl-num sort-num">
+							<span class="sort-num-item">{{item.status}}</span>
+						</td>
+						<td class="zd-num sort-num">
+							<span class="sort-num-item">{{item.total}}</span>
+						</td>
+						<td class="zfd-num sort-num">
+							<span class="sort-num-item">{{item.anticipate_market}}</span>%
+						</td>
+						<td class="zfd-num sort-num">
+							<span class="sort-num-item">{{item.anticipate_profits}}</span>%
+						</td>
+						<td class="zfd-num sort-num">
+							<span class="sort-num-item">{{item.practical_market}}</span>%
+						</td>
+						<td class="zfd-num sort-num sort-num2">
+							<span class="sort-num-item sort-num-item2">{{item.practical_profits}}</span>%
+						</td>
+						<td class="zfd-num sort-num">
+							<a href="##" class="sort-num-item sort-num-item3">编辑</a>
+							<a href="##" class="sort-num-item sort-num-item3">查看走势</a>
+						</td>
+					</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
 </template>
 <script>
-import request from "../../utils/request";
-import Cart2 from "@/Cart2";
-import { addHandler, getElementStyle } from "../../assets/js/utils";
-
-export default {
-  name: "Stock",
-  data() {
-    return {
-      stock: [],
-      checked: [],
-      check_img: require("static/assets/images/checked.png")
-    };
-  },
-  created() {
-    request({
-      url: "/get/stock",
-      methods: "get"
-    }).then(response => {
-      response.forEach(item => {
-        item.is_checked = false;
-      });
-      this.stock = response;
-    });
-  },
-  computed: {
-    is_checked_all() {
-      if (this.stock.length !== 0) {
-        return this.checked.length === this.stock.length;
-      }
-      return false;
-    }
-  },
-  methods: {
-    tab() {
-      this.$nextTick(() => {
-        let stock_line = this.$refs.stock_line;
-        let stock_title = this.$refs.stock_title;
-        let item = stock_title.querySelectorAll(".stock-item");
-        let width = parseInt(getElementStyle(item[0], "width"));
-        for (let i = 0; i < item.length; i++) {
-          item[i].index = i;
-          addHandler(item[i], "click", function() {
-            for (let i = 0; i < item.length; i++) {
-              item[i].classList.remove("active");
-            }
-            item[this.index].classList.add("active");
-            stock_line.style.cssText = `left: ${this.index * width}px`;
-          });
-        }
-      });
-    },
-    check_all() {
-      console.log(this.is_checked_all);
-      this.checked = [];
-      let check_all = this.$refs.check_all;
-      if (check_all.classList.contains("active")) {
-        check_all.classList.remove("active");
-        this.checked = [];
-        this.stock.forEach(item => {
-          item.is_checked = false;
-        });
-      } else {
-        check_all.classList.add("active");
-        this.stock.forEach(item => {
-          item.is_checked = true;
-          this.checked.push(item.name);
-        });
-      }
-      console.log(this.checked);
-    },
-    check_one(index) {
-      let check_all = this.$refs.check_all;
-      this.checked = [];
-      let item = this.stock[index];
-      if (item.is_checked === true) {
-        check_all.classList.remove("active");
-        item.is_checked = false;
-      } else {
-        item.is_checked = true;
-      }
-      this.stock.forEach(item => {
-        if (item.is_checked === true) {
-          this.checked.push(item);
-        }
-      });
-      console.log(this.checked);
-    }
-  },
-  mounted() {
-    this.tab();
-  },
-  components: {
-    Cart2
-  }
-};
+	import request from "../../utils/request";
+	import Cart2 from "@/Cart2";
+	import {addHandler} from "../../assets/js/utils";
+	
+	export default {
+		name: "Order",
+		data() {
+			return {
+				order: [],
+				check_img: require("static/assets/images/checked.png"),
+				checked: [],
+				number: 5644,
+				up_num: 233,
+				up_scale: 10.12
+			};
+		},
+		created() {
+			request({
+				url: "/get/order",
+				methods: "get"
+			}).then(response => {
+				response.forEach(item => {
+					item.is_checked = false;
+				});
+				this.order = response;
+			});
+		},
+		computed: {
+			is_checked_all() {
+				if (this.order.length !== 0) {
+					return this.checked.length === this.order.length;
+				}
+				return false;
+			}
+		},
+		methods: {
+			check_all() {
+				console.log(this.is_checked_all);
+				this.checked = [];
+				let check_all = this.$refs.check_all;
+				if (check_all.classList.contains("active")) {
+					check_all.classList.remove("active");
+					this.checked = [];
+					this.order.forEach(item => {
+						item.is_checked = false;
+					});
+				} else {
+					check_all.classList.add("active");
+					this.order.forEach(item => {
+						item.is_checked = true;
+						this.checked.push(item.name);
+					});
+				}
+				console.log(this.checked);
+			},
+			check_one(index) {
+				let check_all = this.$refs.check_all;
+				this.checked = [];
+				let item = this.order[index];
+				if (item.is_checked === true) {
+					check_all.classList.remove("active");
+					item.is_checked = false;
+				} else {
+					item.is_checked = true;
+				}
+				this.order.forEach(item => {
+					if (item.is_checked === true) {
+						this.checked.push(item);
+					}
+				});
+				console.log(this.checked);
+			},
+			screen() {
+				this.$nextTick(() => {
+					let screen_box = this.$refs.screen_box;
+					let screen_item = screen_box.querySelectorAll(".screen-item");
+					for (let i = 0; i < screen_item.length; i++) {
+						let item = screen_item[i].querySelector("span");
+						item.index = i;
+						item.num = 0;
+						addHandler(item, "click", function () {
+							for (let j = 0; j < screen_item.length; j++) {
+								if (j !== this.index) {
+									let list = screen_item[j].querySelector(".order-screen-list");
+									list.style.display = "none";
+									screen_item[j].querySelector("span").num = 0;
+								}
+							}
+							screen_item[this.index].querySelector(
+								".order-screen-list"
+							).style.display = "block";
+							this.num += 1;
+							
+							if (this.num === 2) {
+								for (let k = 0; k < screen_item.length; k++) {
+									let list = screen_item[k].querySelector(".order-screen-list");
+									list.style.display = "none";
+									screen_item[k].querySelector("span").num = 0;
+								}
+							}
+							console.log(item.index);
+						});
+					}
+					console.log(screen_item);
+				});
+			}
+		},
+		mounted() {
+			this.screen();
+		},
+		components: {
+			Cart2
+		}
+	};
 </script>
 <style lang="scss" scoped>
-.title {
-  padding-top: 34px;
-
-  &.stock-title {
-    position: relative;
-
-    span {
-      color: #687285;
-      display: inline-block;
-      width: 214px;
-      height: 44px;
-      text-align: center;
-      cursor: pointer;
-
-      &.active {
-        color: #e7c180;
-      }
-    }
-
-    .line {
-      width: 214px;
-      height: 2px;
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      transition: left 0.5s;
-      background-color: #e7c180;
-    }
-  }
-}
-
-.order-content {
-  background-color: #30343d;
-}
-
-.table {
-  width: calc(100% - 40px);
-  margin: 0 auto;
-
-  thead {
-    tr {
-      th {
-        border-bottom: none;
-        color: #687285;
-        text-align: center;
-        padding: 24px 0;
-
-        .check-all {
-          display: inline-block;
-          width: 16px;
-          height: 16px;
-          border: 1px solid #687285;
-          vertical-align: middle;
-          margin-right: 10px;
-          position: relative;
-
-          img {
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            right: 0;
-            margin: auto;
-          }
-
-          &.active {
-            border-color: #e9c381;
-          }
-        }
-
-        .check-all-font {
-          display: inline-block;
-          vertical-align: middle;
-        }
-      }
-    }
-  }
-
-  tbody {
-    tr {
-      border: 1px solid #373a43;
-
-      td {
-        color: #ffffff;
-        border-top: none;
-        padding: 18px 0;
-        text-align: center;
-
-        img {
-          margin-right: 12px;
-        }
-
-        .img-box {
-          width: 80%;
-          margin: 0 auto;
-
-          .huohao {
-            margin-top: 16px;
-          }
-        }
-
-        .check-one {
-          display: inline-block;
-          width: 16px;
-          height: 16px;
-          border: 1px solid #ffffff;
-          vertical-align: middle;
-          position: relative;
-
-          img {
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            right: 0;
-            margin: auto;
-          }
-
-          &.active {
-            border-color: #e9c381;
-          }
-        }
-
-        &.sort-num2 {
-          color: #138732;
-        }
-
-        .sort-num-item3 {
-          color: #e9c381;
-          display: block;
-
-          &:nth-of-type(2) {
-            margin-top: 14px;
-          }
-        }
-
-        .copy-font {
-          padding: 2px;
-          border: 1px solid #ffffff;
-          font-size: 12px;
-          border-radius: 5px;
-          cursor: pointer;
-          margin-left: 14px;
-        }
-      }
-    }
-  }
-}
+	.main-right-top {
+		width: 98%;
+	}
+	
+	.order-content {
+		background: #30343d;
+		margin-top: 20px;
+	}
+	
+	.title {
+		padding-top: 24px;
+		padding-bottom: 16px;
+		padding-left: 30px;
+		
+		.btn-order {
+			color: #e9c381;
+			border-color: #e9c381;
+			background-color: transparent;
+			margin-right: 22px;
+		}
+		
+		.order-form-inline {
+			margin-right: 58px;
+			width: 60%;
+		}
+		
+		.order-control {
+			border-color: #e9c381;
+			background-color: transparent;
+			border-top-right-radius: 0;
+			border-bottom-right-radius: 0;
+			width: calc(100% - 80px);
+		}
+		
+		.btn-order-search {
+			background-color: #e9c381;
+			border-color: #e9c381;
+			color: #ffffff;
+			width: 80px;
+			border-top-left-radius: 0;
+			border-bottom-left-radius: 0;
+		}
+	}
+	
+	.order-title {
+		border: 1px solid #373a43;
+		padding: 20px 30px;
+		position: relative;
+		
+		.screen-class {
+			margin-right: 80px;
+		}
+		
+		div {
+			color: #ffffff;
+			margin-right: 66px;
+			cursor: pointer;
+			
+			.order-screen-list {
+				position: absolute;
+				left: 0;
+				top: 63px;
+				padding-left: 50px;
+				background-color: #30343d;
+				box-shadow: 1px 5px 5px rgba($color: #000000, $alpha: 0.1);
+				z-index: 9;
+				width: 100%;
+				display: none;
+				
+				li {
+					height: 56px;
+					line-height: 56px;
+					float: left;
+					margin-right: 70px;
+				}
+			}
+			
+			.order-pro,
+			.order-pro-screen-list {
+				color: #e9c381;
+			}
+		}
+	}
+	
+	.table {
+		width: calc(100% - 40px);
+		margin: 0 auto;
+		
+		thead {
+			tr {
+				th {
+					border-bottom: none;
+					color: #687285;
+					text-align: center;
+					padding: 24px 0;
+					
+					.check-all {
+						display: inline-block;
+						width: 16px;
+						height: 16px;
+						border: 1px solid #687285;
+						vertical-align: middle;
+						margin-right: 10px;
+						cursor: pointer;
+						position: relative;
+						
+						img {
+							position: absolute;
+							left: 0;
+							top: 0;
+							bottom: 0;
+							right: 0;
+							margin: auto;
+						}
+						
+						&.active {
+							border-color: #e9c381;
+						}
+					}
+					
+					.check-all-font {
+						display: inline-block;
+						vertical-align: middle;
+					}
+				}
+			}
+		}
+		
+		tbody {
+			tr {
+				border: 1px solid #373a43;
+				
+				td {
+					color: #ffffff;
+					border-top: none;
+					padding: 18px 0;
+					text-align: center;
+					
+					img {
+						margin-right: 12px;
+					}
+					
+					.img-box {
+						width: 80%;
+						margin: 0 auto;
+					}
+					
+					.check-one {
+						display: inline-block;
+						width: 16px;
+						height: 16px;
+						border: 1px solid #ffffff;
+						vertical-align: middle;
+						cursor: pointer;
+						position: relative;
+						
+						img {
+							position: absolute;
+							left: 0;
+							top: 0;
+							bottom: 0;
+							right: 0;
+							margin: auto;
+						}
+						
+						&.active {
+							border-color: #e9c381;
+						}
+					}
+					
+					&.sort-num2 {
+						color: #138732;
+					}
+					
+					.sort-num-item3 {
+						color: #e9c381;
+						display: block;
+						
+						&:nth-of-type(2) {
+							margin-top: 14px;
+						}
+					}
+				}
+			}
+		}
+	}
 </style>
 
 
