@@ -17,7 +17,7 @@
     "element-ui": "^2.9.1",
     "express": "^4.17.1",
     "iview": "^3.4.2",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "js-cookies": "^1.0.4",
     "mockjs": "^1.0.1-beta3",
     "node-sass": "^4.12.0",
